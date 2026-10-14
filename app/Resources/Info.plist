@@ -30,8 +30,10 @@
     <string>AmbientLight connects to its server on your local network to control the TV backlight.</string>
     <key>NSAppTransportSecurity</key>
     <dict>
-        <!-- Plain HTTP only for local addresses (the server on your NAS); everything else needs HTTPS. -->
-        <key>NSAllowsLocalNetworking</key>
+        <!-- NSAllowsLocalNetworking does not cover VPN addresses such as Tailscale (100.64.0.0/10).
+             ServerAPI.validatedURL enforces the rule instead: plain HTTP only to local or VPN addresses,
+             HTTPS everywhere else. (NSAllowsLocalNetworking must not be set, or this key is ignored.) -->
+        <key>NSAllowsArbitraryLoads</key>
         <true/>
     </dict>
     <key>NSHumanReadableCopyright</key>

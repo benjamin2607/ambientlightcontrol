@@ -34,8 +34,9 @@
 
 - Talks only to your server and, once a day for the update check, to `https://api.github.com`. This can be
   turned off in Settings › About.
-- Plain HTTP is only accepted for local addresses (private IPv4 ranges, `.local`, host names without a
-  domain). Any other address requires HTTPS. The URL session is ephemeral, with no cookies and no cache.
+- Plain HTTP is only accepted for local and VPN addresses (private IPv4 ranges, Tailscale's 100.64.0.0/10
+  and `.ts.net`, `.local`, host names without a domain). Any other address requires HTTPS. The app enforces
+  this itself (`ServerAPI.validatedURL`), because macOS's local-network exception doesn't cover VPN addresses. The URL session is ephemeral, with no cookies and no cache.
 - The app opens **no listening ports** and has **no third-party dependencies**.
 - The update check only shows a notice and links to the GitHub release page. It never downloads or runs
   code.

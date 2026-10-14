@@ -11,6 +11,7 @@ struct ServerAPI: Sendable {
         case unauthorized
         case server(String)
         case unreachable(String)
+        case notHTTPS
 
         var errorDescription: String? {
             switch self {
@@ -19,6 +20,7 @@ struct ServerAPI: Sendable {
             case .unauthorized: "The server rejected the token."
             case .server(let message): message
             case .unreachable(let message): "Server not reachable: \(message)"
+            case .notHTTPS: "The server does not answer over HTTPS. Use http:// unless you put an HTTPS proxy in front of it."
             }
         }
     }
@@ -39,7 +41,7 @@ struct ServerAPI: Sendable {
 
     static func isLocalHost(_ host: String) -> Bool {
         let host = host.lowercased().trimmingCharacters(in: CharacterSet(charactersIn: "[]"))
-        if host == "localhost" || host.hasSuffix(".local") || host.hasSuffix(".lan") || host.hasSuffix(".home.arpa") || !host.contains(".") && !host.contains(":") {
+        if host == "localhost" || host.hasSuffix(".local") || host.hasSuffix(".lan") || host.hasSuffix(".home.arpa") || host.hasSuffix(".ts.net") || !host.contains(".") && !host.contains(":") {
             return true
         }
         let parts = host.split(separator: ".").compactMap { Int($0) }
@@ -53,6 +55,11 @@ struct ServerAPI: Sendable {
         }
         // IPv6 unique local (fc00::/7) and link-local (fe80::/10).
         return host.hasPrefix("fc") || host.hasPrefix("fd") || host.hasPrefix("fe80:") || host == "::1"
+    }
+
+    /// A plain HTTP server answering a TLS handshake shows up as one of these.
+    static func isTLSFailure(_ code: URLError.Code) -> Bool {
+        [.secureConnectionFailed, .networkConnectionLost, .serverCertificateUntrusted, .cannotParseResponse].contains(code)
     }
 
     private static let session: URLSession = {
@@ -101,6 +108,8 @@ struct ServerAPI: Sendable {
         let response: URLResponse
         do {
             (data, response) = try await Self.session.data(for: request)
+        } catch let error as URLError where baseURL.scheme == "https" && Self.isTLSFailure(error.code) {
+            throw APIError.notHTTPS
         } catch {
             throw APIError.unreachable(error.localizedDescription)
         }

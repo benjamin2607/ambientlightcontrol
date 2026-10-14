@@ -11,6 +11,8 @@ import Testing
         "http://tower:8787",
         "http://172.20.0.2:8787",
         "http://100.101.102.103:8787",
+        "http://100.80.239.77:8787",
+        "http://nas.tail1234.ts.net:8787",
         "https://light.example.com",
     ])
     func accepts(_ input: String) throws {
