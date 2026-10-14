@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>ambientlightcontrol</Name>
+  <Repository>ghcr.io/benjamin2607/ambientlightcontrol:latest</Repository>
+  <Registry>https://github.com/benjamin2607/ambientlightcontrol/pkgs/container/ambientlightcontrol</Registry>
+  <Network>bridge</Network>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/benjamin2607/ambientlightcontrol/issues</Support>
+  <Project>https://github.com/benjamin2607/ambientlightcontrol</Project>
+  <Overview>Automation server for a Govee TV backlight: a fixed colour during the day, Video mode while an LG webOS TV is on, off at night. Controlled from the AmbientLight macOS menu bar app. Unofficial, not affiliated with Govee or LG.</Overview>
+  <Category>HomeAutomation:</Category>
+  <WebUI/>
+  <Icon>https://raw.githubusercontent.com/benjamin2607/ambientlightcontrol/main/docs/icon.png</Icon>
+  <ExtraParams>--read-only --cap-drop=ALL --security-opt=no-new-privileges</ExtraParams>
+  <Config Name="API port" Target="8787" Default="8787" Mode="tcp" Description="Port the macOS app connects to. Keep it inside your LAN, do not forward it to the internet." Type="Port" Display="always" Required="true" Mask="false">8787</Config>
+  <Config Name="Config" Target="/config" Default="/mnt/user/appdata/ambientlightcontrol" Mode="rw" Description="Settings, TV pairing and the API token (file api-token). Must be owned by 99:100." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/ambientlightcontrol</Config>
+  <Config Name="Govee API key" Target="GOVEE_API_KEY" Default="" Mode="" Description="From the Govee Home app: Profile › Settings › Apply for API Key." Type="Variable" Display="always" Required="true" Mask="true"/>
+  <Config Name="TV address" Target="TV_HOST" Default="" Mode="" Description="IP address of the LG TV (give it a fixed address in your router). Can also be set in the app." Type="Variable" Display="always" Required="false" Mask="false"/>
+  <Config Name="Time zone" Target="TZ" Default="Europe/Berlin" Mode="" Description="Time zone for the schedule." Type="Variable" Display="always" Required="true" Mask="false">Europe/Berlin</Config>
+  <Config Name="Govee device" Target="GOVEE_DEVICE" Default="" Mode="" Description="Only needed if your Govee account has several devices: device name or ID." Type="Variable" Display="advanced" Required="false" Mask="false"/>
+  <Config Name="Log level" Target="LOG_LEVEL" Default="info" Mode="" Description="debug, info or warn" Type="Variable" Display="advanced" Required="false" Mask="false">info</Config>
+</Container>

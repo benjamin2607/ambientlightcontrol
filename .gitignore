@@ -1,0 +1,23 @@
+# macOS
+.DS_Store
+
+# IDE settings
+.idea/
+.vscode/
+
+# Swift / Xcode
+build/
+app/.build/
+app/.swiftpm/
+*.xcodeproj/xcuserdata/
+DerivedData/
+
+# Local server state (API token, TV pairing)
+.data/
+
+# Secrets - never commit
+.env
+*.env
+!.env.example
+*.token
+api-token

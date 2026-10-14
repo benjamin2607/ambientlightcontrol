@@ -1,0 +1,14 @@
+AmbientLight
+Copyright (c) 2026 benjamin2607. Licensed under the MIT License (see LICENSE).
+
+The LG webOS SSAP registration and power-state handling in server/internal/webos/
+follows the protocol as documented by the open-source projects
+aiowebostv (https://github.com/home-assistant-libs/aiowebostv, Apache License 2.0)
+and PyWebOSTV (https://github.com/supersaiyanmode/PyWebOSTV, MIT License,
+Copyright (c) 2017 Srivatsan Iyer). The signed manifest block of LG's test remote
+app in server/internal/webos/manifest.go is taken from PyWebOSTV; it is required
+by older webOS versions to read the power state. No other code is included.
+
+Govee is a trademark of Shenzhen Intellirocks Tech. Co., Ltd. LG and webOS are
+trademarks of LG Electronics Inc. This project is not affiliated with or endorsed
+by Govee or LG Electronics.

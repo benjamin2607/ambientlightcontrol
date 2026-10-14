@@ -1,0 +1,18 @@
+# Alternative to the Unraid template, e.g. for any Docker host.
+# Put GOVEE_API_KEY=... into a .env file next to this file (never commit it).
+services:
+  ambientlightcontrol:
+    image: ghcr.io/benjamin2607/ambientlightcontrol:latest
+    restart: unless-stopped
+    ports:
+      - "8787:8787"           # LAN only, do not forward to the internet
+    environment:
+      GOVEE_API_KEY: ${GOVEE_API_KEY}
+      TV_HOST: 192.168.1.20   # your TV
+      TZ: Europe/Berlin
+    volumes:
+      - ./config:/config      # chown 99:100 ./config
+    read_only: true
+    cap_drop: [ALL]
+    security_opt:
+      - "no-new-privileges:true"
